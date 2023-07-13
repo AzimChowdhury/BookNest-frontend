@@ -1,0 +1,76 @@
+[
+  {
+    "Title": "Think and Grow Rich",
+    "Author": "Napoleon Hill",
+    "Genre": "Personal Finance",
+    "PublicationDate": "1937-09-30",
+    "Reviews": 8.5,
+    "image": "https://static1.eboighar.com/thumbimages/Books/book_21022021-07-07_1625639243.jpg"
+  },
+    {
+      "Title": "Atomic Habits ",
+      "Author": "James Clear",
+      "Genre": "Personal Development",
+      "PublicationDate": "2018-10-16",
+      "Reviews": 8.7,
+      "image": "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1655988385i/40121378.jpg"
+    },
+    {
+      "Title": "The 7 Habits of Highly Effective People",
+      "Author": "Stephen R. Covey",
+      "Genre": "Self-help",
+      "PublicationDate": "1989-08-15",
+      "Reviews": 7.5,
+      "image": "https://miro.medium.com/v2/resize:fit:720/format:webp/1*_ulACAu5U_Y0jpvP2LjnnQ.jpeg"
+    },
+    
+    {
+      "Title": "The Power of Now",
+      "Author": "Eckhart Tolle",
+      "Genre": "Spirituality",
+      "PublicationDate": "1997-09-29",
+      "Reviews": 7.1,
+      "image": "https://static1.eboighar.com/thumbimages/Books/book_47822021-07-10_1625891255.jpg"
+    },
+    {
+      "Title": "Mindset: The New Psychology of Success",
+      "Author": "Carol S. Dweck",
+      "Genre": "Psychology",
+      "PublicationDate": "2006-12-26",
+      "Reviews": 5.9,
+      "image": "https://static1.eboighar.com/thumbimages/Books/book_35692021-07-11_1626000876.jpg"
+    },
+    {
+      "Title": "Man's Search for Meaning",
+      "Author": "Viktor E. Frankl",
+      "Genre": "Psychology",
+      "PublicationDate": "1946-03-01",
+      "Reviews": 9.0,
+      "image": "https://static1.eboighar.com/thumbimages/Books/book_79492021-09-28_1632817133.jpg"
+    }, 
+    {
+      "Title": "How to Win Friends and Influence People",
+      "Author": "Dale Carnegie",
+      "Genre": "Relationships",
+      "PublicationDate": "1936-10-01",
+      "Reviews": 6.7,
+      "image": "https://ds.rokomari.store/rokomari110/ProductNew20190903/260X372/89d0fd277_70539.jpg"
+    },
+    {
+      "Title": "Daring Greatly",
+      "Author": "Brené Brown",
+      "Genre": "Personal Development",
+      "PublicationDate": "2012-09-11",
+      "Reviews": 7.8,
+      "image": "https://m.media-amazon.com/images/I/81zYoNvaRxL._AC_UF1000,1000_QL80_.jpg"
+    },
+    {
+      "Title": "The 5 Second Rule",
+      "Author": "Mel Robbins",
+      "Genre": "Self-help",
+      "PublicationDate": "2017-02-28",
+      "Reviews": 5.8,
+      "image": "https://static-01.daraz.com.bd/p/166905443af79a5d7570d31c7cbc6c94.jpg"
+    }
+  ]
+  
