@@ -6,6 +6,7 @@
 import { useGetBooksQuery } from '../redux/features/Books/BookApi';
 import IBook from '../types/book.interface';
 import Loading from '../components/Loading';
+import { Link } from 'react-router-dom';
 
 const styles = `
 .image-container {
@@ -41,18 +42,20 @@ export default function AllBooks() {
             <style>{styles}</style>
             {
                 Books?.map((book: IBook, index: number) =>
-                    <div className={`mx-20 my-10 flex justify-around  items-center ${index % 2 && `flex-row-reverse `}`}>
-                        <div className='image-container'>
-                            <img width='300px' src={book.image} className="shadow-2xl shadow-black" />
+                    <Link to={`/book/${book._id!}`}>
+                        <div className={`mx-20 my-10 flex justify-around  items-center ${index % 2 && `flex-row-reverse `}`}>
+                            <div className='image-container'>
+                                <img width='300px' src={book.image} className="shadow-2xl shadow-black" />
+                            </div>
+                            <div className=''>
+                                <h1 className="text-4xl font-bold text-yellow-600 ">{book.Title}</h1>
+                                <p className='text-2xl   text-yellow-500'>Author: {book.Author}</p>
+                                <p className='text-2xl  text-yellow-500'> Genre: {book.Genre}</p>
+                                <p className='text-2xl  text-yellow-500'>Publish Data: {book.PublicationDate}</p>
+
+                            </div>
                         </div>
-                        <div className=''>
-                            <h1 className="text-4xl font-bold text-yellow-600 ">{book.Title}</h1>
-                            <p className='text-2xl   text-yellow-500'>Author: {book.Author}</p>
-                            <p className='text-2xl  text-yellow-500'> Genre: {book.Genre}</p>
-                            <p className='text-2xl  text-yellow-500'>Publish Data: {book.PublicationDate}</p>
-                            <p className='text-2xl  text-yellow-500'> Reviews: {book.Reviews}</p>
-                        </div>
-                    </div>
+                    </Link>
                 )
             }
         </div>

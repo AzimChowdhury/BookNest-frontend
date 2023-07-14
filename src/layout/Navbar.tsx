@@ -26,10 +26,14 @@ export default function Navbar() {
                 <Link to='/allBooks'>
                     <p className="mx-5 text-lg cursor-pointer hover:font-bold font-semibold">All Books</p>
                 </Link>
-                <p className="mx-5 text-lg cursor-pointer hover:font-bold font-semibold">Add New</p>
+
                 {
                     user.email ?
-                        <p onClick={() => logout()} className="mx-5 text-lg cursor-pointer hover:font-bold font-semibold">Log Out</p>
+                        <div className='flex'>
+                            <p className="mx-5 text-lg cursor-pointer hover:font-bold font-semibold">Add New</p>
+
+                            <p onClick={() => logout()} className="mx-5 text-lg cursor-pointer hover:font-bold font-semibold">Log Out</p>
+                        </div>
                         :
                         <Link to='/signin'>
                             <p className="mx-5 text-lg cursor-pointer hover:font-bold font-semibold">Sign In</p>
