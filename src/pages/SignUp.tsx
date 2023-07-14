@@ -1,14 +1,29 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-floating-promises */
+import { useNavigate } from 'react-router-dom';
 import signUpImage from '../assets/signup.jpeg'
+import { signup } from '../redux/features/Users/userSlice';
+import { useAppDispatch, useAppSelector } from '../redux/hook';
+import Loading from '../components/Loading';
 
 export default function SignUp() {
-
-
+    const { user, isLoading, error, isError } = useAppSelector(state => state.user)
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
     const handleSubmit = (event) => {
         event.preventDefault();
         const email = event.target.email.value;
         const password = event.target.password.value;
-        console.log({ email, password });
+        dispatch(signup({ email, password }))
 
+    }
+    if (isLoading) {
+        return <Loading />
+    }
+    if (user.email) {
+        navigate('/')
     }
 
     return (
@@ -23,7 +38,7 @@ export default function SignUp() {
                         <label className="label">
                             <span className="label-text">Email</span>
                         </label>
-                        <input name='email' id="email" type="email" placeholder="Email" autoCapitalize="none"
+                        <input required name='email' id="email" type="email" placeholder="Email" autoCapitalize="none"
                             autoComplete="email"
                             autoCorrect="off" className="input input-bordered w-96  " />
                     </div>
@@ -31,10 +46,13 @@ export default function SignUp() {
                         <label className="label">
                             <span className="label-text">Password</span>
                         </label>
-                        <input name='password' id="password" type="password" autoCapitalize="none"
+                        <input required name='password' id="password" type="password" autoCapitalize="none"
                             autoCorrect="off" placeholder="Password" className="input input-bordered w-96 " />
                     </div>
-                    <button className="btn btn-outline btn-warning w-96 mt-5">Sign Up</button>
+                    {
+                        isError && <p className='text-red-500'>[error]</p>
+                    }
+                    <button type='submit' className="btn btn-outline btn-warning w-96 mt-5">Sign Up</button>
                 </form>
             </div>
         </div>
