@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import { useGetBooksQuery } from '../redux/features/Books/BookApi';
 import IBook from '../types/book.interface';
-import Loading from '../components/Loading';
+import Loading from './Loading';
 
 const styles = `
 .image-container {
@@ -22,10 +22,9 @@ const styles = `
 `;
 
 
-export default function AllBooks() {
+export default function HomePageBooks() {
 
     const { data, isLoading, error } = useGetBooksQuery(undefined)
-    const Books: IBook[] = data?.data
 
 
     if (isLoading) {
@@ -36,12 +35,18 @@ export default function AllBooks() {
         console.log(error);
         return <div className='flex justify-center items-center my-48'><p className='text-3xl text-red-600'>No Books Found</p></div>
     }
+
+
+    const Books: IBook[] = data?.data
+    const reversedBooks: IBook[] = [...Books].reverse();
+
     return (
         <div>
+            <p className='text-center mt-32 mb-16 text-5xl font-semibold text-yellow-500'>Top 10 New Releases</p>
             <style>{styles}</style>
             {
-                Books?.map((book: IBook, index: number) =>
-                    <div className={`mx-20 my-10 flex justify-around  items-center ${index % 2 && `flex-row-reverse `}`}>
+                reversedBooks?.map((book: IBook, index: number) =>
+                    <div key={index} className={`mx-20 my-10 flex justify-around  items-center ${index % 2 && `flex-row-reverse `}`}>
                         <div className='image-container'>
                             <img width='300px' src={book.image} className="shadow-2xl shadow-black" />
                         </div>
