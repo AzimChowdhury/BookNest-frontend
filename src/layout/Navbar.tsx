@@ -13,8 +13,12 @@ export default function Navbar() {
                     <p className="mx-5 text-lg cursor-pointer hover:font-bold font-semibold">All Books</p>
                 </Link>
                 <p className="mx-5 text-lg cursor-pointer hover:font-bold font-semibold">Add New</p>
-                <p className="mx-5 text-lg cursor-pointer hover:font-bold font-semibold">Sign In</p>
-                <p className="mx-5 text-lg cursor-pointer hover:font-bold font-semibold">Sign Up</p>
+                <Link to='/signin'>
+                    <p className="mx-5 text-lg cursor-pointer hover:font-bold font-semibold">Sign In</p>
+                </Link>
+                <Link to='/signup'>
+                    <p className="mx-5 text-lg cursor-pointer hover:font-bold font-semibold">Sign Up</p>
+                </Link>
             </div>
         </div>
     )
