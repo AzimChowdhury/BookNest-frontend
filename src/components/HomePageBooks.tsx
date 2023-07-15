@@ -39,7 +39,7 @@ export default function HomePageBooks() {
 
 
     const Books: IBook[] = data?.data
-    const reversedBooks: IBook[] = [...Books].reverse().slice(0, 9);
+    const reversedBooks: IBook[] = [...Books].reverse().slice(0, 10);
 
     return (
         <div>

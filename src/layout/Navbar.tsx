@@ -30,7 +30,7 @@ export default function Navbar() {
                 {
                     user.email ?
                         <div className='flex'>
-                            <p className="mx-5 text-lg cursor-pointer hover:font-bold font-semibold">Add New</p>
+                            <Link to='/addnew'><p className="mx-5 text-lg cursor-pointer hover:font-bold font-semibold">Add New</p></Link>
 
                             <p onClick={() => logout()} className="mx-5 text-lg cursor-pointer hover:font-bold font-semibold">Log Out</p>
                         </div>

@@ -5,6 +5,7 @@ interface IBook {
   Genre: string;
   PublicationDate: string;
   Reviews: string[];
+  user: string;
   image: string;
 }
 

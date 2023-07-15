@@ -1,28 +1,28 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { useParams } from "react-router-dom"
-import { useSingleBookQuery, useUpdateBookMutation } from "../redux/features/Books/BookApi"
+import { useAddBookMutation, useSingleBookQuery, useUpdateBookMutation } from "../redux/features/Books/BookApi"
 import Loading from "../components/Loading"
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import IBook from "../types/book.interface"
 import { useAppSelector } from "../redux/hook"
 
 
-export default function EditBook() {
-    const { id } = useParams()
-    const user = useAppSelector(state => state.user.user)
-    const { data, isLoading, isError, error } = useSingleBookQuery(id)
-    const [updateBook, { isLoading: loading, isError: error2, error: error3 }] = useUpdateBookMutation()
+export default function AddNew() {
+    const { user } = useAppSelector(state => state.user)
+    const [addBook, { isLoading, isError, isSuccess, error }] = useAddBookMutation()
 
-    if (isLoading || loading) {
+    if (isLoading) {
         return <Loading />
     }
 
     if (isError) {
         console.log(error);
-        return <div className='flex justify-center items-center my-48'><p className='text-3xl text-red-600'>No Books Found</p></div>
+        return <div className='flex justify-center items-center my-48'><p className='text-3xl text-red-600'>Failed to add book</p></div>
     }
 
 
@@ -32,11 +32,6 @@ export default function EditBook() {
 
 
 
-    const title = data.data.Title || ''
-    const author = data.data.Author || ''
-    const genre = data.data.Genre || ''
-    const publicationDate = data.data.PublicationDate || ''
-    const image = data.data.image || ''
 
 
     const handleSubmit = async (event) => {
@@ -46,18 +41,22 @@ export default function EditBook() {
         const Genre = event.target.genre.value;
         const PublicationDate = event.target.date.value;
         const image = event.target.image.value;
-        const Reviews = data.data.Reviews
-        const options = {
-            id: id,
-            data: { Title, Author, Genre, PublicationDate, image, Reviews, user: user }
-        }
-        const result = await updateBook(options)
-        if (result.data.data.modifiedCount) {
+        if (!user.email) {
             MySwal.fire({
-                title: <strong>Successful</strong>,
-                html: <p>Book details updated successfully!</p>,
-                icon: 'success'
+                title: <strong>Failed</strong>,
+                html: <p>you are not authorized to add a book, please log in first</p>,
+                icon: 'error'
             })
+        } else {
+            const data = { Title, Author, Genre, PublicationDate, image, user: user.email, Reviews: [] }
+            const result = await addBook(data)
+            if (result.data.data.acknowledged) {
+                MySwal.fire({
+                    title: <strong>Successful</strong>,
+                    html: <p>Book added successfully!</p>,
+                    icon: 'success'
+                })
+            }
         }
 
     }
@@ -67,43 +66,43 @@ export default function EditBook() {
 
     return (
         <div className="w-6/12 mx-auto">
-            <p className="text-center text-4xl text-yellow-500 my-5">Edit Book Details</p>
+            <p className="text-center text-4xl text-green-500 my-5">Add New Book </p>
 
             <form onSubmit={handleSubmit}>
                 <div className="form-control w-96 mx-auto">
                     <label className="label">
                         <span className="label-text">Book Title</span>
                     </label>
-                    <input defaultValue={title} name="title" type="text" className="input input-bordered w-96" />
+                    <input placeholder="book title" name="title" type="text" className="input input-bordered w-96" />
                 </div>
                 <div className="form-control w-96 mx-auto">
                     <label className="label">
                         <span className="label-text">Author</span>
                     </label>
-                    <input defaultValue={author} name="author" type="text" className="input input-bordered w-96" />
+                    <input placeholder="author name" name="author" type="text" className="input input-bordered w-96" />
                 </div>
                 <div className="form-control w-96 mx-auto">
                     <label className="label">
                         <span className="label-text">Genre</span>
                     </label>
-                    <input defaultValue={genre} name="genre" type="text" className="input input-bordered w-96" />
+                    <input placeholder="book genre" name="genre" type="text" className="input input-bordered w-96" />
                 </div>
                 <div className="form-control w-96 mx-auto">
                     <label className="label">
                         <span className="label-text">Publish Date</span>
                     </label>
-                    <input defaultValue={publicationDate} name="date" type="text" className="input input-bordered w-96" />
+                    <input placeholder="publication date" name="date" type="text" className="input input-bordered w-96" />
                 </div>
                 <div className="form-control w-96 mx-auto">
                     <label className="label">
                         <span className="label-text">Image URL</span>
                     </label>
-                    <input defaultValue={image} name="image" type="text" className="input input-bordered w-96" />
+                    <input placeholder="book image url" name="image" type="text" className="input input-bordered w-96" />
                 </div>
-                {
+                {/* {
                     error2 && error3 && <p className='text-red-500 text-center text-lg mt-5'>failed to update, something went wrong</p>
-                }
-                <button className="btn btn-outline btn-success w-96 ms-36 mt-5" type="submit">Edit</button>
+                } */}
+                <button className="btn btn-outline btn-success w-96 ms-36 mt-5" type="submit">Add Book</button>
             </form>
 
         </div>
