@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { useGiveReviewMutation, useSingleBookQuery } from "../redux/features/Books/BookApi"
 import Loading from "../components/Loading"
 import IBook from "../types/book.interface"
@@ -52,9 +53,19 @@ export default function BookDetails() {
                     <h1 className="text-4xl font-bold text-yellow-600 ">{book.Title}</h1>
                     <p className='text-2xl   text-yellow-500'>Author: {book.Author}</p>
                     <p className='text-2xl  text-yellow-500'> Genre: {book.Genre}</p>
-                    <p className='text-2xl  text-yellow-500'>Publish Data: {book.PublicationDate}</p>
+                    <p className='text-2xl  text-yellow-500'>Publish Date: {book.PublicationDate}</p>
+                    {/* edit and delete */}
+                    <div className="flex justify-center my-5">
+                        <Link to={`/editbook/${book._id}`}>
+                            <button className="btn btn-outline btn-warning  me-5">Edit Book Details</button>
+                        </Link>
+                        <button className="btn btn-outline btn-error mx-3">Delete Book</button>
+                    </div>
                 </div>
             </div>
+
+
+
             {/*  review */}
             <div className="mt-20">
                 <div className="flex justify-around">

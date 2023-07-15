@@ -50,7 +50,7 @@ export default function SignUp() {
                             autoCorrect="off" placeholder="Password" className="input input-bordered w-96 " />
                     </div>
                     {
-                        isError && <p className='text-red-500'>[error]</p>
+                        isError && <p className='text-red-500'>{error}</p>
                     }
                     <button type='submit' className="btn btn-outline btn-warning w-96 mt-5">Sign Up</button>
                 </form>
