@@ -49,7 +49,7 @@ export default function EditBook() {
         const Reviews = data.data.Reviews
         const options = {
             id: id,
-            data: { Title, Author, Genre, PublicationDate, image, Reviews, user: user }
+            data: { Title, Author, Genre, PublicationDate, image, Reviews, user: user.email }
         }
         const result = await updateBook(options)
         if (result.data.data.modifiedCount) {
@@ -57,6 +57,12 @@ export default function EditBook() {
                 title: <strong>Successful</strong>,
                 html: <p>Book details updated successfully!</p>,
                 icon: 'success'
+            })
+        } else {
+            MySwal.fire({
+                title: <strong>Failed</strong>,
+                html: <p>Failed to update book information</p>,
+                icon: 'error'
             })
         }
 

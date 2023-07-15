@@ -32,8 +32,7 @@ export default function BookDetails() {
         return <div className='flex justify-center items-center my-48'><p className='text-3xl text-red-600'>No Books Found</p></div>
     }
     const book: IBook = data.data;
-    console.log(user);
-    console.log(data.data);
+
     const handleReview = (event) => {
         event.preventDefault()
         const review = event.target.review.value
@@ -47,8 +46,9 @@ export default function BookDetails() {
     }
     const MySwal = withReactContent(Swal)
     const handleDelete = async () => {
-        const result = await deleteBook(id)
-        if (result.data.data.acknowledged) {
+        const result = await deleteBook({ id, user: user.email })
+
+        if (result.data && result.data.data.acknowledged) {
             navigate('/')
             MySwal.fire({
                 title: <strong>Successful</strong>,
@@ -56,6 +56,12 @@ export default function BookDetails() {
                 icon: 'success'
             })
 
+        } else {
+            MySwal.fire({
+                title: <strong>Failed</strong>,
+                html: <p>Failed to delete book</p>,
+                icon: 'error'
+            })
         }
     }
 
