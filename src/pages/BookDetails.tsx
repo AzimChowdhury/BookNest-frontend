@@ -19,8 +19,8 @@ export default function BookDetails() {
     const { id } = useParams()
     const user = useAppSelector(state => state.user.user)
     const { data, isLoading, isError, error } = useSingleBookQuery(id)
-    const [giveReview, { isLoading: loading, isError: error2, isSuccess }] = useGiveReviewMutation()
-    const [deleteBook, { isLoading: loading2, isError: error4, isSuccess: success2 }] = useDeleteBookMutation()
+    const [giveReview] = useGiveReviewMutation()
+    const [deleteBook, { isLoading: loading2 }] = useDeleteBookMutation()
     const navigate = useNavigate()
 
     if (isLoading || loading2) {
@@ -33,7 +33,7 @@ export default function BookDetails() {
     }
     const book: IBook = data.data;
 
-    const handleReview = (event) => {
+    const handleReview = (event: any) => {
         event.preventDefault()
         const review = event.target.review.value
         const options = {
@@ -46,7 +46,7 @@ export default function BookDetails() {
     }
     const MySwal = withReactContent(Swal)
     const handleDelete = async () => {
-        const result = await deleteBook({ id, user: user.email })
+        const result: any = await deleteBook({ id, user: user.email })
 
         if (result.data && result.data.data.acknowledged) {
             navigate('/')

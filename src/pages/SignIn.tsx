@@ -13,7 +13,7 @@ export default function SignIn() {
     const { user, isLoading, isError, error } = useAppSelector(state => state.user)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
-    const handleSubmit = (event) => {
+    const handleSubmit = (event: any) => {
         event.preventDefault();
         const email = event.target.email.value;
         const password = event.target.password.value;

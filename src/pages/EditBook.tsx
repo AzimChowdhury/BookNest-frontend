@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -39,7 +40,7 @@ export default function EditBook() {
     const image = data.data.image || ''
 
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event: any) => {
         event.preventDefault()
         const Title = event.target.title.value;
         const Author = event.target.author.value;
@@ -51,7 +52,7 @@ export default function EditBook() {
             id: id,
             data: { Title, Author, Genre, PublicationDate, image, Reviews, user: user.email }
         }
-        const result = await updateBook(options)
+        const result: any = await updateBook(options)
         if (result.data.data.modifiedCount) {
             MySwal.fire({
                 title: <strong>Successful</strong>,

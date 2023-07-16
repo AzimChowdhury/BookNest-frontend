@@ -1,5 +1,4 @@
 import MainLayout from './layout/MainLayout'
-import Navbar from './layout/Navbar'
 
 function App() {
 

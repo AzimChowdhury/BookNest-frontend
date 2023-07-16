@@ -3,18 +3,16 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { useParams } from "react-router-dom"
-import { useAddBookMutation, useSingleBookQuery, useUpdateBookMutation } from "../redux/features/Books/BookApi"
+import { useAddBookMutation } from "../redux/features/Books/BookApi"
 import Loading from "../components/Loading"
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
-import IBook from "../types/book.interface"
 import { useAppSelector } from "../redux/hook"
 
 
 export default function AddNew() {
     const { user } = useAppSelector(state => state.user)
-    const [addBook, { isLoading, isError, isSuccess, error }] = useAddBookMutation()
+    const [addBook, { isLoading, isError, error }] = useAddBookMutation()
 
     if (isLoading) {
         return <Loading />
@@ -34,7 +32,7 @@ export default function AddNew() {
 
 
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event: any) => {
         event.preventDefault()
         const Title = event.target.title.value;
         const Author = event.target.author.value;
@@ -49,7 +47,7 @@ export default function AddNew() {
             })
         } else {
             const data = { Title, Author, Genre, PublicationDate, image, user: user.email, Reviews: [] }
-            const result = await addBook(data)
+            const result: any = await addBook(data)
             if (result.data.data.acknowledged) {
                 MySwal.fire({
                     title: <strong>Successful</strong>,

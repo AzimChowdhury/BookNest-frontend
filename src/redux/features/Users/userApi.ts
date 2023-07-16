@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { api } from "../../api/apiSlice";
 
 const UserApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getWishlist: builder.query({
-      query: (email: string) => `/wishlist/${email}`,
+      query: (email) => `/wishlist/${email}`,
     }),
     postWishlist: builder.mutation({
       query: (data) => ({

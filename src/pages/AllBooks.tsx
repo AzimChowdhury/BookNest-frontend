@@ -7,7 +7,6 @@ import { useGetBooksQuery, useSearchBookMutation } from '../redux/features/Books
 import IBook from '../types/book.interface';
 import Loading from '../components/Loading';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/hook';
 import { setBook } from '../redux/features/Books/BookSlice';
 import { usePostWishlistMutation } from '../redux/features/Users/userApi';
@@ -35,7 +34,7 @@ export default function AllBooks() {
     const { data, isLoading, error } = useGetBooksQuery(undefined)
     const books = useAppSelector(state => state.book)
 
-    const [searchBook, { isLoading: loading, isError }] = useSearchBookMutation()
+    const [searchBook, { isLoading: loading }] = useSearchBookMutation()
     const [postWishlist] = usePostWishlistMutation()
     const MySwal = withReactContent(Swal)
 
@@ -52,11 +51,11 @@ export default function AllBooks() {
     }
 
 
-    const handleSearch = async (event) => {
+    const handleSearch = async (event: any) => {
         event.preventDefault()
         const searchText = event.target.search.value
         if (searchText) {
-            const result = await searchBook(searchText)
+            const result: any = await searchBook(searchText)
             dispatch(setBook(result?.data))
         }
     }
@@ -64,7 +63,7 @@ export default function AllBooks() {
 
     const handleYearFilter = () => {
         Books = data?.data
-        const year = document.getElementById('year').value;
+        const year = (document.getElementById('year') as HTMLInputElement)?.value;
         Books = Books.filter(book => {
             return book.PublicationDate.slice(0, 4) === year
         })
@@ -74,7 +73,7 @@ export default function AllBooks() {
 
     const handleGenreFilter = () => {
         Books = data?.data
-        const genre = document.getElementById('genre').value;
+        const genre = (document.getElementById('genre') as HTMLInputElement)?.value;
         Books = Books.filter(book => {
             return book.Genre === genre
         })
@@ -89,7 +88,7 @@ export default function AllBooks() {
                 stage,
                 book
             }
-            const result = await postWishlist(data)
+            const result: any = await postWishlist(data)
             if (result?.data?.acknowledged) {
                 MySwal.fire({
                     title: <strong>Successful</strong>,
