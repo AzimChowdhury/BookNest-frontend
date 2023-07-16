@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import { useGetBooksQuery } from '../redux/features/Books/BookApi';
+import { useGetBooksQuery, useSearchBookMutation } from '../redux/features/Books/BookApi';
 import IBook from '../types/book.interface';
 import Loading from '../components/Loading';
 import { Link } from 'react-router-dom';
@@ -27,11 +27,12 @@ const styles = `
 export default function AllBooks() {
     const [matchedBooks, setMatchedBooks] = useState([])
     const { data, isLoading, error } = useGetBooksQuery(undefined)
+    const [searchBook, { isLoading: loading, isError }] = useSearchBookMutation()
     const Books: IBook[] = data?.data
 
     console.log(matchedBooks);
 
-    if (isLoading) {
+    if (isLoading || loading) {
         return <Loading />
     }
 
@@ -41,21 +42,12 @@ export default function AllBooks() {
     }
 
 
-    const handleSearch = (event) => {
+    const handleSearch = async (event) => {
         event.preventDefault()
         const searchText = event.target.search.value
         if (searchText) {
-            const searchResult = []
-            Books.map(book => {
-                const matched1 = book.Title.toLowerCase().includes(searchText.toLowerCase())
-                const matched2 = book.Author.toLowerCase().includes(searchText.toLowerCase())
-                const matched3 = book.Genre.toLowerCase().includes(searchText.toLowerCase())
-                if (matched1 || matched2 || matched3) {
-                    searchResult.push(book)
-                }
-                setMatchedBooks(searchResult)
-            })
-
+            const result = await searchBook(searchText)
+            setMatchedBooks(result.data)
         }
     }
 
@@ -77,50 +69,52 @@ export default function AllBooks() {
 
 
             {
-                matchedBooks.length >= 1 ?
-                    <div>
-                        <p className='text-center text-green-500 text-4xl font-semibold'>Search Results</p>
-                        {
-                            matchedBooks?.map((book: IBook, index: number) =>
-                                <Link key={index} to={`/book/${book._id!}`}>
-                                    <div className={`mx-20 my-10 flex justify-around  items-center ${index % 2 && `flex-row-reverse `}`}>
-                                        <div className='image-container'>
-                                            <img width='300px' src={book.image} className="shadow-2xl shadow-black" />
-                                        </div>
-                                        <div className=''>
-                                            <h1 className="text-4xl font-bold text-yellow-600 ">{book.Title}</h1>
-                                            <p className='text-2xl   text-yellow-500'>Author: {book.Author}</p>
-                                            <p className='text-2xl  text-yellow-500'> Genre: {book.Genre}</p>
-                                            <p className='text-2xl  text-yellow-500'>Publish Data: {book.PublicationDate}</p>
+                matchedBooks.length >= 1 &&
+                <div>
+                    <p className='text-center text-green-500 text-4xl font-semibold'>Search Results</p>
 
-                                        </div>
+                    {
+                        matchedBooks?.map((book: IBook, index: number) =>
+                            <Link key={index} to={`/book/${book._id!}`}>
+                                <div className={`mx-20 my-10 flex justify-around  items-center ${index % 2 && `flex-row-reverse `}`}>
+                                    <div className='image-container'>
+                                        <img width='300px' src={book.image} className="shadow-2xl shadow-black" />
                                     </div>
-                                </Link>
-                            )
-                        }
-                    </div>
-                    :
-                    <div>
-                        {
-                            Books?.map((book: IBook, index: number) =>
-                                <Link key={index} to={`/book/${book._id!}`}>
-                                    <div className={`mx-20 my-10 flex justify-around  items-center ${index % 2 && `flex-row-reverse `}`}>
-                                        <div className='image-container'>
-                                            <img width='300px' src={book.image} className="shadow-2xl shadow-black" />
-                                        </div>
-                                        <div className=''>
-                                            <h1 className="text-4xl font-bold text-yellow-600 ">{book.Title}</h1>
-                                            <p className='text-2xl   text-yellow-500'>Author: {book.Author}</p>
-                                            <p className='text-2xl  text-yellow-500'> Genre: {book.Genre}</p>
-                                            <p className='text-2xl  text-yellow-500'>Publish Data: {book.PublicationDate}</p>
+                                    <div className=''>
+                                        <h1 className="text-4xl font-bold text-yellow-600 ">{book.Title}</h1>
+                                        <p className='text-2xl   text-yellow-500'>Author: {book.Author}</p>
+                                        <p className='text-2xl  text-yellow-500'> Genre: {book.Genre}</p>
+                                        <p className='text-2xl  text-yellow-500'>Publish Data: {book.PublicationDate}</p>
 
-                                        </div>
                                     </div>
-                                </Link>
-                            )
-                        }
-                    </div>
+                                </div>
+                            </Link>
+                        )
+                    }
+                </div>
             }
+            <div>
+                <p className='text-center text-green-500 text-4xl font-semibold'>All Books</p>
+                {
+                    Books?.map((book: IBook, index: number) =>
+                        <Link key={index} to={`/book/${book._id!}`}>
+                            <div className={`mx-20 my-10 flex justify-around  items-center ${index % 2 && `flex-row-reverse `}`}>
+                                <div className='image-container'>
+                                    <img width='300px' src={book.image} className="shadow-2xl shadow-black" />
+                                </div>
+                                <div className=''>
+                                    <h1 className="text-4xl font-bold text-yellow-600 ">{book.Title}</h1>
+                                    <p className='text-2xl   text-yellow-500'>Author: {book.Author}</p>
+                                    <p className='text-2xl  text-yellow-500'> Genre: {book.Genre}</p>
+                                    <p className='text-2xl  text-yellow-500'>Publish Data: {book.PublicationDate}</p>
+
+                                </div>
+                            </div>
+                        </Link>
+                    )
+                }
+            </div>
+
         </div>
     )
 }
