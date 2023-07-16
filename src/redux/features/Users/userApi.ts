@@ -6,6 +6,7 @@ const UserApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getWishlist: builder.query({
       query: (email) => `/wishlist/${email}`,
+      providesTags: ["wishlist"],
     }),
     postWishlist: builder.mutation({
       query: (data) => ({
@@ -13,6 +14,7 @@ const UserApi = api.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["wishlist"],
     }),
   }),
 });
