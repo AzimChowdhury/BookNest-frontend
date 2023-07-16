@@ -90,7 +90,19 @@ export default function AllBooks() {
                 book
             }
             const result = await postWishlist(data)
-            console.log(result);
+            if (result?.data?.acknowledged) {
+                MySwal.fire({
+                    title: <strong>Successful</strong>,
+                    html: <p>Book added to wishlist successfully!</p>,
+                    icon: 'success'
+                })
+            } else {
+                MySwal.fire({
+                    title: <strong>Failed</strong>,
+                    html: <p>Failed to add on wishlist!</p>,
+                    icon: 'error'
+                })
+            }
         }
     }
 
