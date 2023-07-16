@@ -10,6 +10,9 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/hook';
 import { setBook } from '../redux/features/Books/BookSlice';
+import { usePostWishlistMutation } from '../redux/features/Users/userApi';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 const styles = `
 .image-container {
@@ -28,12 +31,13 @@ const styles = `
 
 export default function AllBooks() {
     const dispatch = useAppDispatch()
+    const user = useAppSelector(state => state.user.user)
     const { data, isLoading, error } = useGetBooksQuery(undefined)
     const books = useAppSelector(state => state.book)
 
-
     const [searchBook, { isLoading: loading, isError }] = useSearchBookMutation()
-
+    const [postWishlist] = usePostWishlistMutation()
+    const MySwal = withReactContent(Swal)
 
     let Books: IBook[] = data?.data
 
@@ -76,6 +80,18 @@ export default function AllBooks() {
         })
         dispatch(setBook(Books))
 
+    }
+
+    const handleAddToWishlist = async (book: IBook, stage: string) => {
+        if (user.email) {
+            const data = {
+                user: user.email,
+                stage,
+                book
+            }
+            const result = await postWishlist(data)
+            console.log(result);
+        }
     }
 
     return (
@@ -148,20 +164,28 @@ export default function AllBooks() {
                         <p className='text-center text-green-500 text-4xl font-semibold'>All Books</p>
                         {
                             Books?.map((book: IBook, index: number) =>
-                                <Link key={index} to={`/book/${book._id!}`}>
-                                    <div className={`mx-20 my-10 flex justify-around  items-center ${index % 2 && `flex-row-reverse `}`}>
+                                <div key={index} className={`mx-20 my-10 flex justify-around  items-center ${index % 2 && `flex-row-reverse `}`}>
+                                    <Link key={index} to={`/book/${book._id!}`}>
                                         <div className='image-container'>
                                             <img width='300px' src={book.image} className="shadow-2xl shadow-black" />
                                         </div>
-                                        <div className=''>
-                                            <h1 className="text-4xl font-bold text-yellow-600 ">{book.Title}</h1>
-                                            <p className='text-2xl   text-yellow-500'>Author: {book.Author}</p>
-                                            <p className='text-2xl  text-yellow-500'> Genre: {book.Genre}</p>
-                                            <p className='text-2xl  text-yellow-500'>Publish Data: {book.PublicationDate}</p>
+                                    </Link>
+                                    <div className=''>
+                                        <h1 className="text-4xl font-bold text-yellow-600 ">{book.Title}</h1>
+                                        <p className='text-2xl   text-yellow-500'>Author: {book.Author}</p>
+                                        <p className='text-2xl  text-yellow-500'> Genre: {book.Genre}</p>
+                                        <p className='text-2xl  text-yellow-500'>Publish Data: {book.PublicationDate}</p>
 
-                                        </div>
+                                        {
+                                            user.email &&
+                                            <div>
+                                                <button onClick={() => handleAddToWishlist(book, 'alreadyRead')} className="btn btn-outline btn-primary mx-3 mt-3 btn-sm">have read</button>
+                                                <button onClick={() => handleAddToWishlist(book, 'nowReading')} className="btn btn-outline btn-secondary mx-3 mt-3 btn-sm">now reading</button>
+                                                <button onClick={() => handleAddToWishlist(book, 'willRead')} className="btn btn-outline btn-accent mx-3 mt-3 btn-sm">will read</button>
+                                            </div>
+                                        }
                                     </div>
-                                </Link>
+                                </div>
                             )
                         }
                     </div>
