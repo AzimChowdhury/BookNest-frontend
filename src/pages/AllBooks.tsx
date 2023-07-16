@@ -68,10 +68,32 @@ export default function AllBooks() {
 
     }
 
+    const handleGenreFilter = () => {
+        Books = data?.data
+        const genre = document.getElementById('genre').value;
+        Books = Books.filter(book => {
+            return book.Genre === genre
+        })
+        dispatch(setBook(Books))
+
+    }
+
     return (
         <div>
             <style>{styles}</style>
             <div className=' flex justify-around my-5'>
+                {/* filter by publication year */}
+                <div className="form-control w-full max-w-xs">
+                    <select onChange={handleYearFilter} id='year' className="select select-bordered">
+                        <option disabled selected>Filter by Publication year</option>
+                        <option>2022</option>
+                        <option>2021</option>
+                        <option>2020</option>
+                        <option>2019</option>
+                    </select>
+                </div>
+
+
                 {/* search box */}
                 <div className="form-control">
                     <form onSubmit={handleSearch} className="input-group">
@@ -81,14 +103,15 @@ export default function AllBooks() {
                         </button>
                     </form>
                 </div>
-                {/* filter by publication year */}
+
+                {/* filter by genre */}
                 <div className="form-control w-full max-w-xs">
-                    <select onChange={handleYearFilter} id='year' className="select select-bordered">
-                        <option disabled selected>Filter by Publication year</option>
-                        <option>2022</option>
-                        <option>2021</option>
-                        <option>2020</option>
-                        <option>2019</option>
+                    <select onChange={handleGenreFilter} id='genre' className="select select-bordered">
+                        <option disabled selected>Filter by Genre</option>
+                        <option>Psychology</option>
+                        <option>Spirituality</option>
+                        <option>Personal Development</option>
+                        <option>Personal Finance</option>
                     </select>
                 </div>
             </div>
